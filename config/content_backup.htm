@@ -66,7 +66,7 @@
 <p>
 <script src="/static/jsc3d.js" type="text/javascript"></script>
 </p>
-<div id="models"><canvas height="300" id="cv1" style="border: 1px solid;" width="400"></canvas> <canvas height="300" id="cv2" style="border: 1px solid;" width="400"></canvas> <canvas height="300" id="cv3" style="border: 1px solid;" width="400"></canvas><!-- 可以添加更多的 canvas --></div>
+<div id="models"><canvas height="300" id="cv1" style="border: 1px solid;" width="400"></canvas> <canvas height="300" id="cv2" style="border: 1px solid;" width="400"></canvas> <canvas height="300" id="cv3" style="border: 1px solid;" width="400"></canvas><canvas height="300" id="cv4" style="border: 1px solid;" width="400"></canvas><!-- 可以添加更多的 canvas --></div>
 <div style="width: 400px; height: 70px; border: 1px solid;">Model Color:<input id="mdlClr" onchange="changeOption('ModelColor',this.value)" style="margin-right: 50px;" type="color" value="#00ff40"/> Back Color1:<input id="bckClr1" onchange="changeOption('BackgroundColor1',this.value)" style="margin-right: 50px;" type="color"/> Back Color2:<input id="bckClr2" onchange="changeOption('BackgroundColor2',this.value)" type="color"/><br/> Render Mode:<select id="render" onchange="changeOption('RenderMode',this.value)">
 <option>Flat</option>
 <option>Point</option>
@@ -124,13 +124,15 @@ function openByUrl(){
     readSTLfile(opt, 'cv1'); // 為每個 canvas 調用
     readSTLfile(opt, 'cv2'); // 第二個 canvas
     readSTLfile(opt, 'cv3');
+    readSTLfile(opt, 'cv4');
 }
 
 function openByGet(){
     var urls = [
         "https://s104.cycu.org/~41223209/Baseplate.stl",
         "https://s104.cycu.org/~41223209/BearingblockA.stl",
-        "https://s104.cycu.org/~41223209/BearingblockB.stl"
+        "https://s104.cycu.org/~41223209/BearingblockB.stl",
+        "https://s104.cycu.org/~41223209/Dovetailbracket.stl",
     ];
     var opt = getOptions();
     urls.forEach((url, index) => {
