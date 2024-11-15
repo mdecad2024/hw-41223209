@@ -173,7 +173,8 @@ openByGet();
 <p>HW1 執行心得:</p>
 <p style="padding-left: 30px;"><span>利用solvespace繪製零件讓我體會到其他製圖軟體的便利性，solvespace僅能繪製外觀較為簡單的零件，像是Column base這個零件內部挖空的部分要使用solvespace建立出來較為困難，以及Rod support的圓角，因無法完美與圓柱相切導致成品與零件不相符。</span></p>
 <p>HW1 自評分數:</p>
-<p style="padding-left: 30px;">完成上述流程後, 請將 HW1 自評分數輸入 cad2024 自評表單中.</p><h2>HW1_Exam</h2>
+<p style="padding-left: 30px;">完成上述流程後, 請將 HW1 自評分數輸入 cad2024 自評表單中.</p>
+<h2>HW1_Exam</h2>
 <p>從<a href="http://229.cycu.org/part_modeling_projects.pdf">零件模擬練習</a>中選出零件, 隨堂進行考試.</p>
 <p>零件考試題目以 Solvespace 繪圖操作過程影片如下:</p>
 <p style="padding-left: 30px;">請將操作影片嵌入 ......</p>
@@ -273,7 +274,87 @@ openByGet();
 </p>
 <p></p>
 <p>HW1 執行心得：利用solvespace繪製零件讓我體會到其他製圖軟體的便利性，solvespace僅能繪製外觀較為簡單的零件，像是Column base這個零件內部挖空的部分要使用solvespace建立出來較為困難，以及Rod support的圓角，因無法完美與圓柱相切導致成品與零件不相符。</p>
-<h1>HW2</h1>
+<h3>w10</h3>
+<p><img alt="" height="375" src="/images/螢幕擷取畫面 2024-11-15 143226.png" width="400"/></p>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="360" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/mjxyQT-m1Jo" title="國立虎尾科技大學機械設計工程系 - 電腦輔助設計與實習 - 題目一: 41223209" width="640"></iframe></p>
+<p><img alt="" height="422" src="/images/螢幕擷取畫面 2024-11-15 151449.png" width="400"/><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="360" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/MRiR2jLD_X0" title="國立虎尾科技大學機械設計工程系 - 電腦輔助設計與實習 - 題目三: 41223209" width="640"></iframe></p>
+<p style="padding-left: 30px;">
+<script src="/static/jsc3d.js" type="text/javascript"></script>
+</p>
+<div id="models"><canvas height="300" id="cv1" style="border: 1px solid;" width="400"></canvas> <canvas height="300" id="cv2" style="border: 1px solid;" width="400"></canvas> <!-- 可以添加更多的 canvas --></div>
+<div style="width: 400px; height: 70px; border: 1px solid;">Model Color:<input id="mdlClr" onchange="changeOption('ModelColor',this.value)" style="margin-right: 50px;" type="color" value="#00ff40"/> Back Color1:<input id="bckClr1" onchange="changeOption('BackgroundColor1',this.value)" style="margin-right: 50px;" type="color"/> Back Color2:<input id="bckClr2" onchange="changeOption('BackgroundColor2',this.value)" type="color"/><br/> Render Mode:<select id="render" onchange="changeOption('RenderMode',this.value)">
+<option>Flat</option>
+<option>Point</option>
+<option>Wireframe</option>
+<option>Smooth</option>
+</select>Definition:<select id="defini" onchange="changeOption('Definition',this.value)">
+<option>Standard</option>
+<option>low</option>
+<option>high</option>
+</select></div>
+<p>
+<script type="text/javascript">
+var viewers = [];
+
+function getOptions(){
+    var mc = document.getElementById("mdlClr").value;
+    var bc1 = document.getElementById("bckClr1").value;
+    var bc2 = document.getElementById("bckClr2").value;
+    var ren = document.getElementById("render").value;
+    var def = document.getElementById("defini").value;
+    return {ModelColor: mc, BackgroundColor1: bc1, BackgroundColor2: bc2, RenderMode: ren, Definition: def};
+}
+
+function readSTLfile(opt, canvasId){
+    var canvas = document.getElementById(canvasId);
+    var viewer = new JSC3D.Viewer(canvas);
+    viewer.setParameter('SceneUrl', opt.SceneUrl);
+    viewer.setParameter('InitRotationX', 0);
+    viewer.setParameter('InitRotationY', 0);
+    viewer.setParameter('InitRotationZ', 0);
+    viewer.setParameter('ModelColor', opt.ModelColor);
+    viewer.setParameter('BackgroundColor1', opt.BackgroundColor1);
+    viewer.setParameter('BackgroundColor2', opt.BackgroundColor2);
+    viewer.setParameter('RenderMode', opt.RenderMode);
+    viewer.setParameter('Definition', opt.Definition);
+    viewer.init();
+    viewer.update();
+    viewers.push(viewer); // 保存 viewer 實例
+}
+
+function changeOption(strOpt,strValue){
+    console.log("change " + strOpt + " to " + strValue);
+    viewers.forEach(viewer => {
+        viewer.setParameter(strOpt, strValue);
+        viewer.init();
+        viewer.update();
+    });
+}
+
+function openByUrl(){
+    var url = document.getElementById("url").value;
+    var opt = getOptions();
+    opt.SceneUrl = url;
+    // 可以添加更多的 STL URL
+    readSTLfile(opt, 'cv1'); // 為每個 canvas 調用
+    readSTLfile(opt, 'cv2'); // 第二個 canvas
+}
+
+function openByGet(){
+    var urls = [
+        "https://s104.cycu.org/~41223209/one.stl",
+        "https://s104.cycu.org/~41223209/three.stl",
+    ];
+    var opt = getOptions();
+    urls.forEach((url, index) => {
+        opt.SceneUrl = url;
+        readSTLfile(opt, 'cv' + (index + 1)); // 動態生成 canvas ID
+    });
+}
+
+openByGet();
+</script>
+</p><h1>HW2</h1>
 <p>Homework 2 (10%):</p>
 <p style="padding-left: 30px;">利用 Solvespace 與 NX 建立 <a href="https://mde.tw/cad2024/content/BonW.html">Balance on Wheels</a> 組立件</p>
 <hr/>
