@@ -141,10 +141,64 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">About << <a href='About.html'>Previous</a> <a href='HW1.html'>Next</a> >> HW1<br /><h1>Attendance</h1>
-<p>出席 (10%) - 自行舉證評分</p>
-<p>自行利用 Github commits 提交記錄評分.</p>
-<br />About << <a href='About.html'>Previous</a> <a href='HW1.html'>Next</a> >> HW1</div>
+    <div id="tipue_search_content">w16_exam3 << <a href='w16_exam3.html'>Previous</a> <a href='Final Report.html'>Next</a> >> Final Report<br /><h1>Pinball</h1>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="360" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/OjrPtUKeiRg" title="國立虎尾科技大學機械設計工程系 - 電腦輔助設計與實習 - Pinball：41223209" width="640"></iframe><a href="./../downloads/彈射利刃.ttt">w15彈珠檯.ttt</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># pip install pyzmq cbor keyboard
+from coppeliasim_zmqremoteapi_client import RemoteAPIClient
+import keyboard
+
+# Connecting to the CoppeliaSim server
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+sim = client.getObject('sim')
+
+# Get the handle for the slider (prismatic joint)
+cw= sim.getObject('/cw_joint')
+ccw= sim.getObject('/ccw_joint')
+slider = sim.getObject('/kicker_joint')
+
+# Starting the simulation
+sim.startSimulation()
+print('Simulation started')
+
+# Main control loop
+def main():
+    # Keep running until simulation is stopped
+    while True:
+        if keyboard.is_pressed('p'):  # Move slider to -0.15 position
+            print("p is pressed")
+            sim.setJointTargetPosition(ccw, -0.5)
+        
+        if keyboard.is_pressed('l'):  # Reset slider to the original position
+            print("l is pressed")
+            sim.setJointTargetPosition(ccw, 0.0)  # Reset to the initial position
+            
+        if keyboard.is_pressed('w'):  # Move slider to -0.15 position
+            print("w is pressed")
+            sim.setJointTargetPosition(cw,0.5)
+        
+        if keyboard.is_pressed('s'):  # Reset slider to the original position
+            print("s is pressed")
+            sim.setJointTargetPosition(cw, 0.0)  # Reset to the initial position
+
+        if keyboard.is_pressed('j'):  # Move slider to -0.15 position
+            print("j is pressed")
+            sim.setJointTargetPosition(slider, -0.15)
+        
+        if keyboard.is_pressed('k'):  # Reset slider to the original position
+            print("k is pressed")
+            sim.setJointTargetPosition(slider, 0.0)  # Reset to the initial position
+            
+        if keyboard.is_pressed('t'):  # Stop the simulation when 'q' is pressed
+            print("t is pressed - stopping simulation")
+            sim.stopSimulation()
+            break
+
+# Start the main control loop
+main()
+</pre>
+<p></p><br />w16_exam3 << <a href='w16_exam3.html'>Previous</a> <a href='Final Report.html'>Next</a> >> Final Report</div>
         
     <!-- footer -->
       <div class="container">
